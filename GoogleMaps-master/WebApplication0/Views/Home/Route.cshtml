@@ -1,0 +1,90 @@
+﻿<script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
+<style type="text/css">
+    /* Always set the map height explicitly to define the size of the div
+        * element that contains the map. */
+    #map {
+        height: 500px;
+        width: 500px;
+    }
+
+    /* Optional: Makes the sample page fill the window. */
+    html,
+    body {
+        height: 100%;
+        margin: 0;
+        padding: 0;
+    }
+
+    
+</style>
+<script>
+        
+        function initMap() {
+            const map = new google.maps.Map(document.getElementById("map"), {
+                zoom: 8,
+                center: { lat: -34.397, lng: 150.644 },
+            });
+            var directionsRenderer = new google.maps.DirectionsRenderer();
+            directionsRenderer.setMap(map);
+            var directionsDisplay = new google.maps.DirectionsRenderer();
+            document.getElementById("submit").addEventListener("click", () => {
+                
+                const address1 = document.getElementById("address1").value;
+                const address2 = document.getElementById("address2").value;
+                const mode = document.getElementById("mode").value;
+                
+                //geocodeAddressRoute(geocoder, map, address1,address2);
+                
+                var directionsService = new google.maps.DirectionsService();
+                var request = {
+                    origin: address1, //точка старта
+                    destination: address2, //точка финиша
+                    travelMode: mode //режим прокладки маршрута
+                };
+
+                directionsService.route(request, function (response, status) {
+                    if (status == google.maps.DirectionsStatus.OK) {
+                        directionsDisplay.setDirections(response);
+                    }
+                });
+                //directionsDisplay.setMap(null);
+                directionsDisplay.setMap(map);
+                
+                
+
+                
+            });
+        }
+
+        
+
+</script>
+
+<body>
+    <div  class="container">
+        <div class="row">
+            <p class="col-3">Mode</p>
+            <select class="col-7" id="mode">
+                <option value="DRIVING">Driving</option>
+                <option value="WALKING">Walking</option>
+
+            </select>
+        </div>
+        <div class="row mt-2">
+            <p class="col-3">Start</p>
+            <input class="col-7" id="address1" type="text" />
+        </div>
+        <div class="row mt-2">
+            <p class="col-3">End</p>
+            <input class="col-7" id="address2" type="text" />
+        </div>
+        <div class="row mt-2">
+            <input id="submit"  class="col-2" type="button" value="GetRoute" />
+        </div>
+    </div>
+    <div id="map"></div>
+
+    <!-- Async script executes immediately and must be after any DOM elements used in callback. -->
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDbEA6OW3DLiwIoah_7C0AHfNwP73eQ7mc&callback=initMap&libraries=&v=weekly"
+            async></script>
+</body>

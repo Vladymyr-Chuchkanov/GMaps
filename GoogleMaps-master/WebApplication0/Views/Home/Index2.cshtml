@@ -1,0 +1,30 @@
+﻿
+
+<div id="demoMap" style="height:250px"></div>
+<script src="/OpenLayers.js"></script>
+<script src="/lib/jquery/dist/jquery.js"></script>
+@*<script>
+    
+    map = new OpenLayers.Map("demoMap");
+    map.addLayer(new OpenLayers.Layer.OSM());
+    map.zoomToMaxExtent();
+    
+</script>*@
+<script type="text/javascript">
+    $(document).ready(function () {
+        $("#submit").click(function () {
+
+            $.ajax({
+                type: "POST",
+                url: "/Home/Index2GetRes?adress=" + $("#address").val()
+            });
+        });
+
+    });
+    
+    
+</script>
+<div id="floating-panel">
+    <input id="address" type="text" value="Sydney, NSW" />
+    <input id="submit" type="button" value="Geocode" />
+</div>
